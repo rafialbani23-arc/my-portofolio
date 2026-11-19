@@ -54,7 +54,10 @@ export default function PortfolioTransition() {
     window.clearTimeout(navigationFallback.current);
     navigationFallback.current = undefined;
     const anchor = document.getElementById(target.hash.slice(1));
-    anchor?.scrollIntoView({ behavior: "instant" });
+    if (anchor) {
+      const top = anchor.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top, behavior: "instant" });
+    }
     let revealFrame = 0;
     const paintFrame = window.requestAnimationFrame(() => {
       revealFrame = window.requestAnimationFrame(() => setAnimation({ ...animation, revealing: true }));
