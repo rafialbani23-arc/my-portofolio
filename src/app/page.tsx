@@ -1,5 +1,4 @@
 import Image from "next/image";
-import PortfolioTransition from "../components/PortfolioTransition";
 import ProfilePortrait from "../components/ProfilePortrait";
 import { certificates } from "../data/certificates";
 import { projects } from "../data/projects";
@@ -118,7 +117,9 @@ export default function Home() {
         </section>
       </div>
 
-      <PortfolioTransition />
+      <section id="portfolio-intro" className="portfolio-transition contours">
+        <a href="/portfolio/#projects" data-portfolio-entry className="portfolio-transition-title">Portfolio</a>
+      </section>
     </main>
   );
 }

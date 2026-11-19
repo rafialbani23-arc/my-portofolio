@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const oldGalleryLinks = new Set(["#projects", "#certificates", "#cv", "#contact"]);
 const galleryUrl = "/portfolio/#projects";
 const introUrl = "/#portfolio-intro";
 
-function RouteAnimation({ reverse, onFinish }: { reverse: boolean; onFinish: () => void }) {
+function RouteAnimation({ reverse, revealing, onFinish }: { reverse: boolean; revealing: boolean; onFinish: () => void }) {
   const word = useRef<HTMLSpanElement>(null);
   const letter = useRef<HTMLElement>(null);
 
@@ -18,7 +19,7 @@ function RouteAnimation({ reverse, onFinish }: { reverse: boolean; onFinish: () 
   }, []);
 
   return (
-    <div className="portfolio-route-transition contours" data-direction={reverse ? "up" : "down"} aria-hidden="true">
+    <div className="portfolio-route-transition contours" data-direction={reverse ? "up" : "down"} data-revealing={revealing} aria-hidden="true">
       <span ref={word} className="portfolio-route-word" onAnimationEnd={onFinish}>
         Po<b ref={letter}>r</b>tfolio
       </span>
@@ -26,23 +27,56 @@ function RouteAnimation({ reverse, onFinish }: { reverse: boolean; onFinish: () 
   );
 }
 
-export default function PortfolioTransition({ reverse = false }: { reverse?: boolean }) {
-  const section = useRef<HTMLElement>(null);
-  const destination = useRef<string | null>(null);
-  const navigating = useRef(false);
-  const [playing, setPlaying] = useState(false);
+export default function PortfolioTransition() {
+  const router = useRouter();
+  const pathname = usePathname().replace(/\/$/, "") || "/";
+  const reverse = pathname === "/portfolio";
+  const destination = useRef<URL | null>(null);
+  const navigationFallback = useRef<number | undefined>(undefined);
+  const [animation, setAnimation] = useState<{ reverse: boolean; revealing: boolean } | null>(null);
 
   useEffect(() => {
     window.dispatchEvent(new Event("portfolio-transition"));
-  }, [playing]);
+  }, [animation]);
 
-  function openDestination() {
-    if (!destination.current || navigating.current) return;
-    navigating.current = true;
-    window.location.assign(destination.current);
-  }
+  const openDestination = useCallback(() => {
+    const target = destination.current;
+    if (!target || navigationFallback.current !== undefined || target.pathname === window.location.pathname) return;
+    router.push(target.pathname + target.hash, { scroll: false });
+    navigationFallback.current = window.setTimeout(() => window.location.assign(target.href), 3200);
+  }, [router]);
+
+  useLayoutEffect(() => {
+    const target = destination.current;
+    if (!target || !animation || animation.revealing ||
+        (target.pathname.replace(/\/$/, "") || "/") !== pathname) return;
+
+    window.clearTimeout(navigationFallback.current);
+    navigationFallback.current = undefined;
+    const anchor = document.getElementById(target.hash.slice(1));
+    anchor?.scrollIntoView({ behavior: "instant" });
+    let revealFrame = 0;
+    const paintFrame = window.requestAnimationFrame(() => {
+      revealFrame = window.requestAnimationFrame(() => setAnimation({ ...animation, revealing: true }));
+    });
+    return () => {
+      window.cancelAnimationFrame(paintFrame);
+      window.cancelAnimationFrame(revealFrame);
+    };
+  }, [animation, pathname]);
 
   useEffect(() => {
+    if (!animation?.revealing) return;
+    const timer = window.setTimeout(() => {
+      destination.current = null;
+      setAnimation(null);
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [animation]);
+
+  useEffect(() => {
+    if (pathname !== "/" && !reverse) return;
+    router.prefetch(reverse ? "/" : "/portfolio/");
     const hash = window.location.hash;
     if (!reverse && oldGalleryLinks.has(hash)) {
       window.location.replace(`/portfolio/${hash}`);
@@ -53,16 +87,18 @@ export default function PortfolioTransition({ reverse = false }: { reverse?: boo
     let armed = false;
     let lastScroll = window.scrollY;
     let touchTop: number | undefined;
+    const section = document.getElementById("portfolio-intro");
 
     function start(href: string) {
       if (destination.current) return;
-      destination.current = href;
+      const target = new URL(href, window.location.href);
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        openDestination();
+        window.location.assign(target.href);
         return;
       }
-      setPlaying(true);
-      timer = window.setTimeout(openDestination, 1450);
+      destination.current = target;
+      setAnimation({ reverse, revealing: false });
+      timer = window.setTimeout(openDestination, 1120);
     }
 
     function onClick(event: MouseEvent) {
@@ -77,8 +113,8 @@ export default function PortfolioTransition({ reverse = false }: { reverse?: boo
       const next = window.scrollY;
       const goingDown = next > lastScroll;
       lastScroll = next;
-      if (armed && goingDown && section.current &&
-          section.current.getBoundingClientRect().top <= window.innerHeight * .12) {
+      if (armed && goingDown && section &&
+          section.getBoundingClientRect().top <= window.innerHeight * .12) {
         start(galleryUrl);
       }
     }
@@ -125,12 +161,13 @@ export default function PortfolioTransition({ reverse = false }: { reverse?: boo
     function resetOnReturn(event: PageTransitionEvent) {
       if (!event.persisted) return;
       destination.current = null;
-      navigating.current = false;
+      window.clearTimeout(navigationFallback.current);
+      navigationFallback.current = undefined;
       armed = false;
       lastScroll = window.scrollY;
       clearTouch();
       window.clearTimeout(timer);
-      setPlaying(false);
+      setAnimation(null);
     }
 
     if (!reverse) {
@@ -157,16 +194,7 @@ export default function PortfolioTransition({ reverse = false }: { reverse?: boo
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("pageshow", resetOnReturn);
     };
-  }, [reverse]);
+  }, [openDestination, pathname, reverse, router]);
 
-  return (
-    <>
-      {!reverse && (
-        <section ref={section} id="portfolio-intro" className="portfolio-transition contours">
-          <a href={galleryUrl} data-portfolio-entry className="portfolio-transition-title">Portfolio</a>
-        </section>
-      )}
-      {playing && <RouteAnimation reverse={reverse} onFinish={openDestination} />}
-    </>
-  );
+  return animation && <RouteAnimation {...animation} onFinish={openDestination} />;
 }

@@ -9,8 +9,12 @@ export default function ProfilePortrait() {
 
     const portrait = event.currentTarget;
     const bounds = portrait.getBoundingClientRect();
-    portrait.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
-    portrait.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+    const x = (event.clientX - bounds.left) / bounds.width;
+    const y = (event.clientY - bounds.top) / bounds.height;
+    const onHead = x >= .28 && x <= .72 && y >= 0 && y <= .43;
+    portrait.dataset.headActive = String(onHead);
+    portrait.style.setProperty("--spot-x", `${x * 100}%`);
+    portrait.style.setProperty("--spot-y", `${y * 100}%`);
   }
 
   return (
@@ -19,6 +23,7 @@ export default function ProfilePortrait() {
       tabIndex={0}
       onPointerEnter={positionSpotlight}
       onPointerMove={positionSpotlight}
+      onPointerLeave={(event) => delete event.currentTarget.dataset.headActive}
     >
       <Image
         src="/images/profile-rafi-transparent.webp"
@@ -27,6 +32,7 @@ export default function ProfilePortrait() {
         sizes="(max-width: 780px) 46vw, 335px"
       />
       <span className="profile-effect" aria-hidden="true" />
+      <span className="profile-hood" aria-hidden="true" />
       <span className="profile-pointer" aria-hidden="true" />
     </div>
   );

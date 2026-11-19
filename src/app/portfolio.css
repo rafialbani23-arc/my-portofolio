@@ -133,6 +133,11 @@
 }
 .about-profile h1 span { color: #6288ff; }
 .about-profile .lead { margin-bottom: 1rem; color: #bdc5d6; line-height: 1.7; }
+@property --portrait-head-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
 .profile-photo {
   --spot-x: 50%;
   --spot-y: 23%;
@@ -144,10 +149,11 @@
 .profile-photo img {
   object-fit: contain;
   object-position: center bottom;
+  mask-image: linear-gradient(rgb(0 0 0 / var(--portrait-head-opacity, 1)) 41%, #000 49% 82%, transparent);
+  transition: --portrait-head-opacity .2s ease;
 }
-.profile-photo img,
-.profile-effect::before {
-  mask-image: linear-gradient(#000 82%, transparent 100%);
+.profile-photo:is([data-head-active="true"], :focus-visible) img {
+  --portrait-head-opacity: 0;
 }
 .profile-effect {
   --spot-radius: 29cqw;
@@ -167,6 +173,19 @@
   position: absolute;
   inset: 0;
   background: url("/images/profile-spider-costume.webp") center bottom / 104% 100% no-repeat;
+  mask-image: linear-gradient(transparent 40%, #000 49% 82%, transparent);
+}
+.profile-hood {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: url("/images/profile-spider-costume.webp") center bottom / 104% 100% no-repeat;
+  mask-image: linear-gradient(#000 41%, transparent 49%);
+  transition: opacity .2s ease;
+}
+.profile-photo:is([data-head-active="true"], :focus-visible) .profile-hood {
+  opacity: 1;
 }
 .profile-pointer {
   position: absolute;
@@ -389,18 +408,23 @@
   overflow: clip;
   pointer-events: auto;
   background: #060912;
+  transition: opacity .36s cubic-bezier(.22, .7, .23, 1);
+}
+.portfolio-route-transition[data-revealing="true"] {
+  opacity: 0;
+  pointer-events: none;
 }
 .portfolio-route-transition::after {
   content: "";
   position: absolute;
   inset: 0;
   background: #f8f9fa;
-  animation: portfolio-route-wipe 1.25s linear both;
+  animation: portfolio-route-wipe 1.02s cubic-bezier(.43, .03, .22, 1) both;
 }
 .portfolio-route-word {
   position: relative;
   transform-origin: var(--letter-origin, 28%) 65%;
-  animation: portfolio-route-word 1.25s cubic-bezier(.56, .04, .53, .99) both;
+  animation: portfolio-route-word 1.02s cubic-bezier(.37, .05, .4, 1) both;
 }
 .portfolio-route-word b { font: inherit; }
 .portfolio-route-transition[data-direction="up"]::after,
@@ -627,15 +651,14 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   to { opacity: 1; transform: none; }
 }
 @keyframes portfolio-route-word {
-  from { opacity: 0; transform: translateY(.45em); }
-  20% { opacity: 1; transform: none; }
-  43% { opacity: 1; transform: translateX(calc(var(--letter-shift, 0px) * .2)) rotate(-2deg) scale(1.22); }
-  67% { opacity: 1; transform: translateX(calc(var(--letter-shift, 0px) * .78)) rotate(-4deg) scale(5.5); }
-  93%, to { opacity: 1; transform: translateX(var(--letter-shift, 0px)) rotate(-4deg) scale(38); }
+  from { transform: none; }
+  30% { transform: translateX(calc(var(--letter-shift, 0px) * .12)) rotate(-1deg) scale(1.18); }
+  63% { transform: translateX(calc(var(--letter-shift, 0px) * .82)) rotate(-3deg) scale(6); }
+  to { transform: translateX(var(--letter-shift, 0px)) rotate(-4deg) scale(38); }
 }
 @keyframes portfolio-route-wipe {
-  0%, 75% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
-  92% { clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%); }
+  0%, 64% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
+  95% { clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%); }
   to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 }
 @keyframes enter {
