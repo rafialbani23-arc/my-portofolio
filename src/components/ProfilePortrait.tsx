@@ -31,7 +31,7 @@ export default function ProfilePortrait() {
         <svg className="profile-badge" viewBox="0 0 1000 1307" aria-hidden="true">
           <defs>
             <filter id={`${logoId}-color`} colorInterpolationFilters="sRGB">
-              <feColorMatrix type="matrix" values="0 0 0 0 .467  0 0 0 0 .788  0 0 0 0 1  0 3.8 3.7 0 -1.3" />
+              <feColorMatrix type="matrix" values=".05 .1 .04 0 .3  .05 .13 .06 0 .45  .04 .1 .1 0 .53  0 3.8 3.7 0 -1.3" />
             </filter>
             <clipPath id={`${logoId}-bounds`}>
               <rect x="690" y="960" width="114" height="135" />

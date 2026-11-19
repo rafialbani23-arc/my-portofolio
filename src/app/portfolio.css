@@ -532,39 +532,11 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
 .carousel-arrow.previous { left: -.75rem; }
 .carousel-arrow.next { right: -.75rem; }
 .certificate { padding: 4rem 1rem; border: 1px dashed #a4aec4; border-radius: 1rem; text-align: center; color: var(--muted); }
-.portfolio-collage {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
-  gap: clamp(.85rem, 4vw, 2.6rem) clamp(.45rem, 3vw, 2.1rem);
-  max-width: 49rem;
-  margin-block: 1.2rem 3rem;
-  padding-block: clamp(1.6rem, 5vw, 4rem);
+.portfolio-collage-flight {
+  width: min(100%, 82rem);
+  height: clamp(24rem, 76svh, 48rem);
+  margin-inline: auto;
 }
-.collage-photo {
-  --photo-tilt: -9deg;
-  --photo-position: 5%;
-  --photo-from-x: 42%;
-  --photo-entry: 2%;
-  --photo-exit: 1%;
-  --fly-x: -154%;
-  --fly-y: -88%;
-  --fly-rotate: -12deg;
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border: .26rem solid #fff;
-  border-radius: .52rem;
-  background: #f9fbfe;
-  box-shadow: 0 .8rem 1.55rem #1820312d;
-  translate: 0 var(--photo-position);
-  rotate: var(--photo-tilt);
-}
-.collage-photo img { object-fit: cover; object-position: center; }
-.collage-photo:nth-child(4n + 2) { --photo-tilt: 8deg; --photo-position: -9%; --photo-from-x: 23%; --photo-entry: 9%; --photo-exit: 6%; --fly-x: -51%; --fly-rotate: 8deg; }
-.collage-photo:nth-child(4n + 3) { --photo-tilt: -5deg; --photo-position: 9%; --photo-from-x: -21%; --photo-entry: 4%; --photo-exit: 3%; --fly-x: 58%; --fly-rotate: -6deg; }
-.collage-photo:nth-child(4n + 4) { --photo-tilt: 7deg; --photo-position: -5%; --photo-from-x: -38%; --photo-entry: 14%; --photo-exit: 8%; --fly-x: 150%; --fly-rotate: 10deg; }
-.collage-photo:nth-child(n + 5) { --fly-y: 90%; }
 .contact-columns { grid-template-columns: .9fr 1.35fr; align-items: start; gap: 1.4rem; }
 .contact-card { padding: clamp(1.15rem, 2.6vw, 1.85rem); }
 .contact-card + .contact-card { margin-top: 1.4rem; }
@@ -676,11 +648,10 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
       height: 100svh;
       overflow: clip;
     }
-    .portfolio-collage-stage .portfolio-collage { max-width: min(49rem, 112svh); margin-block: 0; padding-block: 0; }
-    .collage-photo {
+    .portfolio-collage-flight {
       animation: collage-fly-through linear both;
       animation-timeline: --project-collage;
-      animation-range: entry var(--photo-entry) exit var(--photo-exit);
+      animation-range: entry 3% exit 9%;
     }
     .portfolio-transition-title:not(:focus-visible) {
       animation: section-wordmark linear both;
@@ -690,11 +661,11 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   }
 }
 @keyframes collage-fly-through {
-  from { opacity: 0; transform: translate(var(--photo-from-x), 52%) scale(.76) rotate(12deg); animation-timing-function: ease-out; }
+  from { opacity: 0; transform: translateY(13%) scale(.78); animation-timing-function: ease-out; }
   42% { opacity: 1; transform: none; }
   58% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(.45, .05, .7, .98); }
-  83% { opacity: .85; transform: translate(var(--fly-x), var(--fly-y)) scale(2.1) rotate(var(--fly-rotate)); }
-  to { opacity: 0; transform: translate(calc(var(--fly-x) * 1.5), calc(var(--fly-y) * 1.45)) scale(3.3) rotate(var(--fly-rotate)); }
+  83% { opacity: .85; transform: translateY(-3%) scale(1.65); }
+  to { opacity: 0; transform: translateY(-9%) scale(2.85); }
 }
 @keyframes folder-arrive {
   from { opacity: 0; translate: -48% 12%; }
@@ -757,12 +728,6 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   .timeline-grid, .contact-columns { grid-template-columns: 1fr; }
   .timeline-scroll { max-height: none; overflow: visible; }
   .folders { gap: .45rem; margin-top: 4rem; }
-  .portfolio-collage { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 21rem; gap: 1.4rem .95rem; }
-  .portfolio-collage-stage .portfolio-collage { max-width: min(21rem, 45svh); }
-  .collage-photo { aspect-ratio: 5 / 4; }
-  .collage-photo:nth-child(2n + 1) { --fly-x: -113%; }
-  .collage-photo:nth-child(2n) { --fly-x: 113%; }
-  .collage-photo:nth-child(n + 5) { --fly-y: 115%; }
   .folder { min-height: 5.8rem; }
   .folder-front { font-size: .66rem; }
   .folder-front span { display: none; }
@@ -772,6 +737,7 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   .portfolio *, .portfolio *::before, .portfolio *::after { transition: none; scroll-behavior: auto; }
   .folder:is(:hover, :focus-visible) :is(.folder-paper, .folder-front) { transform: none; }
   .portfolio-route-transition::after, .portfolio-route-word { animation: none; }
+  .portfolio-collage-flight { height: auto; padding-block: 1rem 2.5rem; }
 }
 
 .certificate-card a { display: block; height: 100%; }

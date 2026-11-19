@@ -4,6 +4,7 @@ import ProjectDetails from "../../components/ProjectDetails";
 import PortfolioGallery from "../../components/PortfolioGallery";
 import ContactDraft from "../../components/ContactDraft";
 import Guestbook from "../../components/Guestbook";
+import DriftWall from "../../components/DriftWall";
 import { certificates } from "../../data/certificates";
 import { projects } from "../../data/projects";
 import { socials } from "../../data/socials";
@@ -80,12 +81,8 @@ export default function PortfolioPage() {
 
         <div className="portfolio-collage-scene" aria-hidden="true">
           <div className="portfolio-collage-stage">
-            <div className="portfolio-collage wrap">
-              {projects.flatMap(({ image }) => image ? [image] : []).map((image) => (
-                <div key={image} className="collage-photo">
-                  <Image src={image} alt="" fill sizes="(max-width: 550px) 31vw, 180px" />
-                </div>
-              ))}
+            <div className="portfolio-collage-flight">
+              <DriftWall items={projects.flatMap(({ image, title }) => image ? [{ image, title }] : [])} />
             </div>
           </div>
         </div>
