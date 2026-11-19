@@ -26,8 +26,8 @@
 @supports (width: 100cqw) {
   .mountain-frame {
     inset: 50% auto auto 50%;
-    width: max(100cqw, 200cqh);
-    height: max(100cqh, 50cqw);
+    width: max(100cqw, 177.68cqh);
+    height: max(100cqh, 56.28cqw);
     translate: -50% -50%;
   }
 }
@@ -38,25 +38,24 @@
   display: none;
   position: absolute;
   inset: 0;
-  background: url("/images/mountain-opening.webp") center / 100% 100% no-repeat;
   pointer-events: none;
 }
 .mountain-ground {
   background: linear-gradient(180deg, #060912a8, #060912 96%),
-    url("/images/mountain-distance.webp") center bottom / 100% 100% no-repeat;
+    url("/images/bromo-panorama.webp") center bottom / 100% 100% no-repeat;
   clip-path: polygon(0 87%, 8% 86%, 14% 88%, 21% 84%, 27% 85%, 31% 87%,
     35% 85%, 43% 83%, 49% 85%, 54% 84%, 59% 86%, 64% 85%, 72% 87%,
     81% 84%, 89% 86%, 95% 85%, 100% 87%, 100% 100%, 0 100%);
 }
 .mountain-person {
-  clip-path: polygon(49.4% 53.2%, 50.1% 52.8%, 51.7% 54%, 52.2% 55.5%, 52.2% 58%,
-    51.8% 61%, 51.2% 63%, 51.8% 65%, 53.4% 66.5%, 55% 68.5%, 55.4% 72%,
-    55.5% 78%, 55.4% 81.7%, 54.7% 85.5%, 53% 89.3%, 54% 93.5%, 54.6% 100%,
-    46.2% 100%, 46.3% 95%, 46.8% 90.5%, 45.8% 87%, 45.4% 84%, 44.8% 81.5%,
-    44.5% 78.4%, 44.8% 74.5%, 44.9% 71.1%, 45.5% 68.7%, 47.4% 66.4%,
-    48.5% 64.6%, 48.5% 62.5%, 48% 60.2%, 47.8% 57.5%, 48.1% 55%, 48.8% 53.9%);
   mask-image: linear-gradient(#000 86%, transparent 100%);
   transform-origin: center bottom;
+}
+.mountain-person::before {
+  content: "";
+  position: absolute;
+  inset: 20.7% 6.9% -6.9%;
+  background: url("/images/bromo-subject.webp") center / 100% 100% no-repeat;
 }
 .mountain-trees-left {
   clip-path: inset(0 50% 0 0);
@@ -66,7 +65,7 @@
   clip-path: inset(0 0 0 50%);
   transform-origin: right center;
 }
-.mountain-trees { background-image: url("/images/mountain-foreground.webp"); }
+.mountain-trees { background: url("/images/bromo-near.webp") center / 100% 100% no-repeat; }
 .mountain-stars {
   position: absolute;
   z-index: 2;
@@ -140,18 +139,36 @@
 }
 .about-profile h1 span { color: #6288ff; }
 .about-profile .lead { margin-bottom: 1rem; color: #bdc5d6; line-height: 1.7; }
+.about-heading { --stroke-text-width: clamp(10.75rem, 25vw, 18rem); }
+.about-heading .stroke-text__svg { margin-inline: auto; }
+@property --portrait-reveal {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
 .profile-photo {
   --spot-x: 50%;
   --spot-y: 23%;
+  --spot-position: var(--spot-x) var(--spot-y);
+  --spot-radius: clamp(1.75rem, 24cqw, 6rem);
+  --portrait-reveal: 0;
   position: relative;
   container-type: inline-size;
   width: 100%;
   aspect-ratio: 1000 / 1307;
+  transition: --portrait-reveal .18s ease;
+}
+.profile-base {
+  position: absolute;
+  inset: 0;
+  mask-image: radial-gradient(circle var(--spot-radius) at var(--spot-position),
+    rgb(0 0 0 / calc(1 - var(--portrait-reveal))) 70%, #000 100%),
+    linear-gradient(#000 82%, transparent);
+  mask-composite: intersect;
 }
 .profile-photo img {
   object-fit: contain;
   object-position: center bottom;
-  mask-image: linear-gradient(#000 82%, transparent);
 }
 .profile-badge {
   position: absolute;
@@ -159,18 +176,14 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  mask-image: linear-gradient(#000 82%, transparent);
 }
 .profile-effect {
-  --spot-radius: clamp(1.75rem, 24cqw, 6rem);
   position: absolute;
   inset: 0;
   isolation: isolate;
-  opacity: 0;
+  opacity: var(--portrait-reveal);
   pointer-events: none;
-  mask-image: radial-gradient(circle var(--spot-radius) at var(--spot-x) var(--spot-y),
-    #000 22%, #000e 44%, #0008 65%, #0002 88%, transparent);
-  transition: opacity .18s ease;
+  mask-image: radial-gradient(circle var(--spot-radius) at var(--spot-position), #000 70%, transparent);
 }
 .profile-effect::before {
   content: "";
@@ -194,14 +207,11 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
-.profile-photo:focus-visible .profile-effect {
-  --spot-x: 50%;
-  --spot-y: 23%;
-  opacity: 1;
-}
+.profile-photo:focus-visible { --portrait-reveal: 1; }
+.profile-photo:focus-visible:not(:hover) { --spot-position: 50% 23%; }
 @media (hover: hover) and (pointer: fine) {
-  .profile-photo:hover { cursor: none; }
-  .profile-photo:hover :is(.profile-effect, .profile-pointer) { opacity: 1; }
+  .profile-photo:hover { cursor: none; --portrait-reveal: 1; }
+  .profile-photo:hover .profile-pointer { opacity: 1; }
 }
 .button {
   display: inline-flex;
@@ -578,6 +588,14 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
 .contact-form textarea { resize: vertical; }
 .contact-form [role="status"]:empty { display: none; }
 .contact-form .button { width: 100%; justify-content: center; }
+.guestbook { margin-top: .85rem; }
+.guestbook .contact-form { display: grid; gap: .7rem; }
+.guestbook-retry { color: #254fc3; text-decoration: underline; cursor: pointer; }
+.guestbook-entries { margin: 1rem 0 0; padding: 0; list-style: none; overflow-wrap: anywhere; }
+.guestbook-entries li { border-top: 1px solid var(--line); padding-block: .9rem; }
+.guestbook-entries li > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem 1rem; }
+.guestbook-entries time { color: var(--muted); font-size: .85rem; }
+.guestbook-entries p { white-space: pre-wrap; }
 .social-link { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .25rem .75rem; border-top: 1px solid var(--line); padding: .8rem 0 .2rem; margin-top: .8rem; font-weight: 650; }
 .social-link:hover { color: #254fc3; }
 .social-name { display: inline-flex; align-items: center; gap: .55rem; }

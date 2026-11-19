@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProfilePortrait from "../components/ProfilePortrait";
+import StrokeText from "../components/StrokeText";
 import { certificates } from "../data/certificates";
 import { projects } from "../data/projects";
 import "./portfolio.css";
@@ -10,8 +11,8 @@ export default function Home() {
       <section id="home" className="mountain-opening" aria-label="Home">
         <div className="mountain-stage">
           <div className="mountain-frame">
-            <Image className="mountain-distance" src="/images/mountain-distance.webp" alt="" fill preload sizes="100vw" />
-            <Image className="mountain-composite" src="/images/mountain-opening.webp" alt="" fill preload sizes="100vw" />
+            <Image className="mountain-distance" src="/images/bromo-panorama.webp" alt="" fill preload sizes="100vw" />
+            <Image className="mountain-composite" src="/images/bromo-original.webp" alt="" fill preload sizes="100vw" />
             <span className="mountain-ground" aria-hidden="true" />
             <span className="mountain-person" aria-hidden="true" />
             <span className="mountain-trees mountain-trees-left" aria-hidden="true" />
@@ -24,7 +25,10 @@ export default function Home() {
 
       <div className="dark-portfolio contours">
         <section id="about" className="wrap section about-section">
-          <h2 className="section-heading reveal">About Me</h2>
+          <h2 className="section-heading about-heading" aria-label="About Me">
+            <StrokeText text="About Me" strokeColor="#a6baff" fillColor="#f7f9ff" shineColor="#f7f9ff"
+              fontSize={112} strokeWidth={2} trigger="scroll" fillMode="wipe" />
+          </h2>
           <div className="about-profile">
             <div className="about-slide about-slide-left">
               <h1><span>Hi, I’m</span><br />Rafi Albani<br />Syafarel</h1>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import ProjectDetails from "../../components/ProjectDetails";
 import PortfolioGallery from "../../components/PortfolioGallery";
 import ContactDraft from "../../components/ContactDraft";
+import Guestbook from "../../components/Guestbook";
 import { certificates } from "../../data/certificates";
 import { projects } from "../../data/projects";
 import { socials } from "../../data/socials";
@@ -99,7 +100,7 @@ export default function PortfolioPage() {
             <div>
               <div className="panel contact-card reveal">
                 <h3>Komentar</h3>
-                <p>Guestbook pending.</p>
+                <Guestbook />
               </div>
               <div className="panel contact-card reveal">
                 <h3>Find Me</h3>

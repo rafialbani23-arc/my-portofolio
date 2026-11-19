@@ -26,24 +26,21 @@ export default function ProfilePortrait() {
       onPointerEnter={positionSpotlight}
       onPointerMove={positionSpotlight}
     >
-      <Image
-        src={portraitSource}
-        alt="Rafi Albani Syafarel"
-        fill
-        sizes="(max-width: 780px) 46vw, 335px"
-      />
-      <svg className="profile-badge" viewBox="0 0 1000 1307" aria-hidden="true">
-        <defs>
-          <filter id={`${logoId}-color`} colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="0 0 0 0 .467  0 0 0 0 .788  0 0 0 0 1  0 3.8 3.7 0 -1.3" />
-          </filter>
-          <clipPath id={`${logoId}-bounds`}>
-            <rect x="690" y="960" width="114" height="135" />
-          </clipPath>
-        </defs>
-        <image href={portraitSource} width="1000" height="1307"
-          filter={`url(#${logoId}-color)`} clipPath={`url(#${logoId}-bounds)`} />
-      </svg>
+      <span className="profile-base">
+        <Image src={portraitSource} alt="Rafi Albani Syafarel" fill sizes="(max-width: 780px) 46vw, 335px" />
+        <svg className="profile-badge" viewBox="0 0 1000 1307" aria-hidden="true">
+          <defs>
+            <filter id={`${logoId}-color`} colorInterpolationFilters="sRGB">
+              <feColorMatrix type="matrix" values="0 0 0 0 .467  0 0 0 0 .788  0 0 0 0 1  0 3.8 3.7 0 -1.3" />
+            </filter>
+            <clipPath id={`${logoId}-bounds`}>
+              <rect x="690" y="960" width="114" height="135" />
+            </clipPath>
+          </defs>
+          <image href={portraitSource} width="1000" height="1307"
+            filter={`url(#${logoId}-color)`} clipPath={`url(#${logoId}-bounds)`} />
+        </svg>
+      </span>
       <span className="profile-effect" aria-hidden="true" />
       <span className="profile-pointer" aria-hidden="true" />
     </div>

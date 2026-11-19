@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:site": "npm run build && node scripts/prepare-worker.mjs",
     "start": "next start",
     "lint": "eslint"
   },
