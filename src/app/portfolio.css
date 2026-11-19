@@ -139,8 +139,10 @@
 }
 .about-profile h1 span { color: #6288ff; }
 .about-profile .lead { margin-bottom: 1rem; color: #bdc5d6; line-height: 1.7; }
-.about-heading { --stroke-text-width: clamp(10.75rem, 25vw, 18rem); }
-.about-heading .stroke-text__svg { margin-inline: auto; }
+.about-heading .stroke-text__svg {
+  width: clamp(10.75rem, 19.5vw, 18rem);
+  margin-inline: auto;
+}
 @property --portrait-reveal {
   syntax: "<number>";
   inherits: true;
