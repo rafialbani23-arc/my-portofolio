@@ -3,11 +3,12 @@
 
 import { useEffect, useState } from "react";
 import StrokeText from "../../components/StrokeText";
+import { socials } from "../../data/socials";
 
 export default function ContactPage() {
   const [copied, setCopied] = useState(false);
 
-  const github = "https://github.com/rafialbani23-arc";
+  const github = socials.github.href;
 
   useEffect(() => {
     if (!copied) return;
@@ -113,7 +114,7 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-10 text-sm text-lime-400">
-              github.com/rafialbani23-arc
+              {socials.github.display}
             </div>
           </a>
 
@@ -146,6 +147,16 @@ export default function ContactPage() {
                 : "Copy GitHub Profile ↗"}
             </button>
           </div>
+        </div>
+
+        <div className="mt-5 grid gap-5 md:grid-cols-2">
+          {[socials.instagram, socials.whatsapp].map(({ label, display, href }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+              className="rounded-3xl border border-white/10 bg-[#111111] px-9 py-6 transition-colors hover:border-lime-400/40">
+              <span className="block font-medium">{label}</span>
+              <span className="mt-2 block text-sm text-lime-400">{display}</span>
+            </a>
+          ))}
         </div>
 
         {/* FOOTER SECTION */}

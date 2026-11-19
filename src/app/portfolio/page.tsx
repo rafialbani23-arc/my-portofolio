@@ -5,6 +5,7 @@ import PortfolioGallery from "../../components/PortfolioGallery";
 import ContactDraft from "../../components/ContactDraft";
 import { certificates } from "../../data/certificates";
 import { projects } from "../../data/projects";
+import { socials } from "../../data/socials";
 import "../portfolio.css";
 
 const cvUrl = "/cv/rafi-albani-syafarel.pdf";
@@ -48,7 +49,7 @@ export default function PortfolioPage() {
                 </a>
               </article>
             ))}
-            projects={projects.map((project) => (
+            projects={projects.map((project, index) => (
             <article key={project.title} className="project panel project-card">
               <div className="project-preview">
                 {project.image ? (
@@ -56,6 +57,7 @@ export default function PortfolioPage() {
                     src={project.image}
                     alt={`${project.title} application preview`}
                     fill
+                    loading={index < 3 ? "eager" : "lazy"}
                     sizes="(max-width: 550px) 85vw, (max-width: 780px) 55vw, 400px"
                   />
                 ) : (
@@ -75,9 +77,9 @@ export default function PortfolioPage() {
         </section>
 
         <div className="portfolio-collage wrap" aria-hidden="true">
-          {projects.slice(-4).flatMap(({ image }) => image ? [image] : []).map((image) => (
+          {projects.flatMap(({ image }) => image ? [image] : []).map((image) => (
             <div key={image} className="collage-photo">
-              <Image src={image} alt="" fill sizes="(max-width: 550px) 25vw, 165px" />
+              <Image src={image} alt="" fill sizes="(max-width: 550px) 40vw, 180px" />
             </div>
           ))}
         </div>
@@ -92,7 +94,12 @@ export default function PortfolioPage() {
               </div>
               <div className="panel contact-card reveal">
                 <h3>Find Me</h3>
-                <a className="social-link" href="https://github.com/rafialbani23-arc">GitHub <span aria-hidden="true">↗</span></a>
+                {Object.values(socials).map(({ label, display, href }) => (
+                  <a className="social-link" key={label} href={href} target="_blank" rel="noopener noreferrer">
+                    <span>{label}</span>
+                    <span className="social-address">{display}</span>
+                  </a>
+                ))}
               </div>
             </div>
             <div className="panel contact-card reveal">
