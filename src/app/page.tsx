@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProfilePortrait from "../components/ProfilePortrait";
+import PortfolioFolders from "../components/PortfolioFolders";
 import StrokeText from "../components/StrokeText";
 import { certificates } from "../data/certificates";
 import { projects } from "../data/projects";
@@ -14,9 +15,9 @@ export default function Home() {
             <Image className="mountain-distance" src="/images/bromo-panorama.webp" alt="" fill preload sizes="100vw" />
             <Image className="mountain-composite" src="/images/bromo-original.webp" alt="" fill preload sizes="100vw" />
             <span className="mountain-ground" aria-hidden="true" />
+            <span className="mountain-person" aria-hidden="true" />
             <span className="mountain-trees mountain-trees-left" aria-hidden="true" />
             <span className="mountain-trees mountain-trees-right" aria-hidden="true" />
-            <span className="mountain-person" aria-hidden="true" />
           </div>
           <span className="mountain-stars" aria-hidden="true" />
           <p className="opening-title">Welcome to my<br />portfolio</p>
@@ -87,8 +88,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="folders">
-            {[
+          <PortfolioFolders entries={[
               {
                 label: "Projects",
                 id: "projects",
@@ -102,20 +102,7 @@ export default function Home() {
                 previews: certificates.slice(0, 3).map(({ file }) => `/certificates/${file}.webp`),
               },
               { label: "CV", id: "cv", count: 1, previews: [] },
-            ].map(({ label, id, count, previews }) => (
-              <a key={id} className="folder" data-portfolio-entry href={`/portfolio/#${id}`}>
-                <span className="folder-papers" aria-hidden="true">
-                  {previews.map((src) => (
-                    <span key={src} className="folder-paper">
-                      <Image src={src} alt="" fill sizes="(max-width: 550px) 26vw, 220px" />
-                    </span>
-                  ))}
-                  {previews.length === 0 && <span className="folder-paper folder-document" />}
-                </span>
-                <span className="folder-front"><strong>{count}</strong>{label}<span aria-hidden="true">↗</span></span>
-              </a>
-            ))}
-          </div>
+          ]} />
         </section>
       </div>
 

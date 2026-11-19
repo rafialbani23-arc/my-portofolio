@@ -65,7 +65,7 @@
   clip-path: inset(0 0 0 50%);
   transform-origin: right center;
 }
-.mountain-trees { background: url("/images/bromo-near.webp") center / 100% 100% no-repeat; }
+.mountain-trees { display: block; background: url("/images/bromo-near.webp") center / 100% 100% no-repeat; }
 .mountain-stars {
   position: absolute;
   z-index: 2;
@@ -295,103 +295,7 @@
 .timeline-entry h4 { font-weight: 700; }
 .timeline-entry p { margin-top: .35rem; color: #a6b5d1; font-size: .86rem; line-height: 1.5; transition: color .2s ease; }
 .folders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 5vw, 4.5rem); max-width: 60rem; margin: 8rem auto 2rem; }
-.folder {
-  position: relative;
-  display: grid;
-  align-items: end;
-  min-height: 9rem;
-  aspect-ratio: 1.4;
-  isolation: isolate;
-  border-radius: .85rem;
-  perspective: 30rem;
-}
-.folder::before, .folder-front, .folder-papers, .folder-paper { position: absolute; }
-.folder::before {
-  content: "";
-  inset: 0 0 .15rem;
-  background: linear-gradient(165deg, #bdc8db56, #434c604e 48%, #11192978 94%);
-  border: 1px solid #bac7dc37;
-  clip-path: polygon(0 15%, 41% 15%, 53% 0, 100% 0, 100% 100%, 0 100%);
-  border-radius: .85rem;
-  box-shadow: inset 0 1px 0 #fff4;
-}
-.folder-front {
-  z-index: 1;
-  display: grid;
-  align-content: end;
-  inset: 27% 0 0;
-  padding: clamp(.6rem, 2vw, 1.1rem);
-  overflow: hidden;
-  color: #f2f3f7;
-  font-size: .82rem;
-  border: 1px solid #cddaff2e;
-  border-radius: .85rem;
-  background: linear-gradient(165deg, #949dac4b, #242b3769 49%, #090c13e8 100%);
-  backdrop-filter: blur(10px) brightness(.45);
-  box-shadow: inset 0 1px 0 #ffffff3b, inset 0 -.75rem 1rem #02051140, 0 .7rem 1.3rem #0005;
-  transform-origin: bottom;
-  transition: transform .36s cubic-bezier(.2, .9, .25, 1), border-color .28s;
-}
-@supports (clip-path: shape(from 0 0, line to 100% 100%, close)) {
-  .folder::before {
-    clip-path: shape(from 0 24%, curve to 7% 14% with 0 16% / 3% 14%, line to 41% 14%,
-      curve to 55% 0% with 47% 14% / 49% 0%, line to 93% 0%,
-      curve to 100% 10% with 98% 0% / 100% 4%, line to 100% 100%, line to 0 100%, close);
-  }
-  .folder-front {
-    clip-path: shape(from 0 13%, curve to 7% 0% with 0 5% / 3% 0%, line to 36% 0,
-      curve to 49% 15% with 42% 0% / 43% 15%, line to 93% 15%,
-      curve to 100% 28% with 98% 15% / 100% 20%, line to 100% 100%, line to 0 100%, close);
-  }
-}
-.folder-front::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(119deg, #e7eeff15, transparent 45%, #d5dfff08 73%, transparent);
-  pointer-events: none;
-}
-.folder-front strong { font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1; }
-.folder-front span {
-  position: absolute;
-  right: .75rem;
-  bottom: .7rem;
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid #ffffff12;
-  border-radius: .65rem;
-  background: #ffffff0a;
-  color: #e7eeff;
-}
-.folder-papers {
-  inset: 23% 9% 12%;
-  perspective: 25rem;
-}
-.folder-paper {
-  inset: 5% 5% 0;
-  overflow: hidden;
-  border-radius: .45rem;
-  border: 1px solid #ffffff54;
-  background: #c5cfe0;
-  box-shadow: 0 .3rem .9rem #0007;
-  transform: translate3d(0, 10%, 0) rotate(-1deg);
-  transition: transform .42s cubic-bezier(.2, .9, .25, 1);
-}
-.folder-paper:nth-child(2) { inset: 8% 3% 0 9%; transform: translateY(12%) rotate(2deg); }
-.folder-paper:nth-child(3) { inset: 11% 8% 0 4%; transform: translateY(16%) rotate(-2deg); }
-.folder-paper img { object-fit: cover; object-position: top; }
-.folder-paper.folder-document {
-  inset-inline: 13%;
-  background:
-    repeating-linear-gradient(#aab7ce 0 1px, transparent 1px 7px) center 24% / 68% 55% no-repeat,
-    linear-gradient(145deg, #f7f9ff, #d8e0ef);
-}
-.folder:is(:hover, :focus-visible) .folder-paper:nth-child(1) { transform: translate(-4%, -55%) rotate(-4deg); }
-.folder:is(:hover, :focus-visible) .folder-paper:nth-child(2) { transform: translate(2%, -39%) rotate(2deg); }
-.folder:is(:hover, :focus-visible) .folder-paper:nth-child(3) { transform: translate(0, -24%) rotate(-1deg); }
-.folder:is(:hover, :focus-visible) .folder-front { transform: rotateX(-15deg) translateY(3%); }
+.folder-slot { min-width: 0; text-align: center; }
 .portfolio-transition {
   position: relative;
   min-height: 100svh;
@@ -587,7 +491,7 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   @supports (animation-timeline: scroll()) {
     .mountain-opening { min-height: 176svh; }
     .mountain-composite { visibility: hidden; }
-    .mountain-ground, .mountain-person, .mountain-trees { display: block; }
+    .mountain-ground, .mountain-person { display: block; }
     .mountain-distance {
       animation: mountain-distance linear both;
       animation-timeline: scroll(root);
@@ -626,19 +530,6 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
     .about-slide-left { --about-offset: calc(-1 * clamp(2rem, 12vw, 12rem)); }
     .about-slide-right { --about-offset: clamp(2rem, 12vw, 12rem); }
   
-    .folders { view-timeline-name: --folders; }
-    .folder:nth-child(2) { --folder-start: 8%; --folder-end: 36%; }
-    .folder:nth-child(3) { --folder-start: 16%; --folder-end: 43%; }
-    .folder:not(:focus-visible) {
-      animation: folder-arrive ease-out both;
-      animation-timeline: --folders;
-      animation-range: entry var(--folder-start, 0%) cover var(--folder-end, 29%);
-    }
-    .folder:not(:focus-visible) .folder-papers {
-      animation: folder-previews-arrive ease-out both;
-      animation-timeline: --folders;
-      animation-range: entry var(--folder-start, 0%) cover var(--folder-end, 29%);
-    }
     .portfolio-collage-scene { min-height: 150svh; view-timeline-name: --project-collage; }
     .portfolio-collage-stage {
       position: sticky;
@@ -666,14 +557,6 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   58% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(.45, .05, .7, .98); }
   83% { opacity: .85; transform: translateY(-3%) scale(1.65); }
   to { opacity: 0; transform: translateY(-9%) scale(2.85); }
-}
-@keyframes folder-arrive {
-  from { opacity: 0; translate: -48% 12%; }
-  to { opacity: 1; translate: none; }
-}
-@keyframes folder-previews-arrive {
-  from { opacity: 0; translate: -27% 18%; }
-  to { opacity: 1; translate: none; }
 }
 @keyframes mountain-distance {
   to { transform: translateY(4%) scale(1.24); }
@@ -728,14 +611,10 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   .timeline-grid, .contact-columns { grid-template-columns: 1fr; }
   .timeline-scroll { max-height: none; overflow: visible; }
   .folders { gap: .45rem; margin-top: 4rem; }
-  .folder { min-height: 5.8rem; }
-  .folder-front { font-size: .66rem; }
-  .folder-front span { display: none; }
   .project-grid { grid-auto-columns: 85%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .portfolio *, .portfolio *::before, .portfolio *::after { transition: none; scroll-behavior: auto; }
-  .folder:is(:hover, :focus-visible) :is(.folder-paper, .folder-front) { transform: none; }
   .portfolio-route-transition::after, .portfolio-route-word { animation: none; }
   .portfolio-collage-flight { height: auto; padding-block: 1rem 2.5rem; }
 }
