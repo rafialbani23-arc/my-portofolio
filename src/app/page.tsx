@@ -4,8 +4,6 @@ import { certificates } from "../data/certificates";
 import { projects } from "../data/projects";
 import "./portfolio.css";
 
-const cvUrl = "/cv/rafi-albani-syafarel.pdf";
-
 export default function Home() {
   return (
     <main className="portfolio">
@@ -14,6 +12,7 @@ export default function Home() {
           <div className="mountain-frame">
             <Image className="mountain-distance" src="/images/mountain-distance.webp" alt="" fill preload sizes="100vw" />
             <Image className="mountain-composite" src="/images/mountain-opening.webp" alt="" fill preload sizes="100vw" />
+            <span className="mountain-ground" aria-hidden="true" />
             <span className="mountain-person" aria-hidden="true" />
             <span className="mountain-trees mountain-trees-left" aria-hidden="true" />
             <span className="mountain-trees mountain-trees-right" aria-hidden="true" />
@@ -29,12 +28,10 @@ export default function Home() {
           <div className="about-profile">
             <div className="about-slide about-slide-left">
               <h1><span>Hi, I’m</span><br />Rafi Albani<br />Syafarel</h1>
-              <a className="button primary" href={cvUrl} target="_blank" rel="noopener noreferrer">View CV <span aria-hidden="true">↗</span></a>
             </div>
             <ProfilePortrait />
             <div className="about-slide about-slide-right">
               <p className="lead">I’m a Software Engineering student. I enjoy turning ideas into functional, visually engaging websites and learning modern web technologies.</p>
-              <a className="button primary" data-portfolio-entry href="/portfolio/#projects">View Projects <span aria-hidden="true">↗</span></a>
             </div>
           </div>
 
@@ -50,6 +47,7 @@ export default function Home() {
                 <article className="timeline-entry">
                   <span className="timeline-number" aria-hidden="true" />
                   <h4>Hidayatunnajah Islamic Boarding School</h4>
+                  <p>Senior High School</p>
                 </article>
               </div>
             </div>
