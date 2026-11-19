@@ -32,6 +32,34 @@
   }
 }
 .mountain-frame img { object-fit: cover; }
+.mountain-person,
+.mountain-trees {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: url("/images/mountain-opening.webp") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.mountain-person {
+  clip-path: polygon(49.4% 53.2%, 50.1% 52.8%, 51.7% 54%, 52.2% 55.5%, 52.2% 58%,
+    51.8% 61%, 51.2% 63%, 51.8% 65%, 53.4% 66.5%, 55% 68.5%, 55.4% 72%,
+    55.5% 78%, 55.4% 81.7%, 54.7% 85.5%, 53% 89.3%, 54% 93.5%, 54.6% 100%,
+    46.2% 100%, 46.3% 95%, 46.8% 90.5%, 45.8% 87%, 45.4% 84%, 44.8% 81.5%,
+    44.5% 78.4%, 44.8% 74.5%, 44.9% 71.1%, 45.5% 68.7%, 47.4% 66.4%,
+    48.5% 64.6%, 48.5% 62.5%, 48% 60.2%, 47.8% 57.5%, 48.1% 55%, 48.8% 53.9%);
+  mask-image: linear-gradient(#000 86%, transparent 100%);
+  transform-origin: center bottom;
+}
+.mountain-trees-left {
+  mask-image: radial-gradient(ellipse 76% 77% at 0 0, #000 29%, #000e 44%, transparent 73%),
+    linear-gradient(to right, #000 9%, transparent 33%);
+  transform-origin: left center;
+}
+.mountain-trees-right {
+  mask-image: radial-gradient(ellipse 76% 77% at 100% 0, #000 29%, #000e 44%, transparent 71%),
+    linear-gradient(to left, #000 9%, transparent 33%);
+  transform-origin: right center;
+}
 .mountain-stars {
   position: absolute;
   z-index: 2;
@@ -138,18 +166,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/profile-spider-mask.svg") center bottom / contain no-repeat;
-  filter: saturate(.86) contrast(1.07);
-}
-.profile-effect::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("/images/profile-rafi-transparent.webp") center bottom / contain no-repeat;
-  filter: grayscale(1) blur(1.25px);
-  mix-blend-mode: soft-light;
-  opacity: .3;
-  mask-image: linear-gradient(#000 68%, transparent 100%);
+  background: url("/images/profile-spider-costume.webp") center bottom / 104% 100% no-repeat;
 }
 .profile-pointer {
   position: absolute;
@@ -217,8 +234,7 @@
   scroll-snap-align: start;
 }
 .timeline-entry:last-child { padding-bottom: .4rem; }
-.timeline-entry::before {
-  content: counter(portfolio-entry) / "";
+.timeline-number {
   position: absolute;
   top: .05rem;
   left: -.76rem;
@@ -233,14 +249,16 @@
   font-size: .68rem;
   font-weight: 800;
   line-height: 1;
-  transition: background .2s, color .2s, box-shadow .2s;
+  transition: background .18s, color .18s, border-color .18s, box-shadow .18s;
 }
-.timeline-entry:first-child::before,
-.timeline-entry:hover::before {
-  border-color: #f0f4ff;
-  background: #f3f7ff;
-  color: #192233;
-  box-shadow: 0 0 .85rem #a4c3ff86;
+.timeline-number::before { content: counter(portfolio-entry) / ""; }
+@media (hover: hover) {
+  .timeline-number:hover {
+    border-color: #fff;
+    background: #fff;
+    color: #192233;
+    box-shadow: 0 0 .85rem #a4c3ff86;
+  }
 }
 .timeline-entry h4 { font-weight: 700; }
 .timeline-entry p { margin-top: .35rem; color: #a6b5d1; font-size: .86rem; line-height: 1.5; }
@@ -351,7 +369,7 @@
   overflow: clip;
 }
 .portfolio-transition-title,
-.portfolio-route-transition span {
+.portfolio-route-word {
   display: block;
   color: #f8f9fa;
   font-size: 13.8vw;
@@ -377,12 +395,18 @@
   position: absolute;
   inset: 0;
   background: #f8f9fa;
-  animation: portfolio-route-wipe 1.38s linear both;
+  animation: portfolio-route-wipe 1.25s linear both;
 }
-.portfolio-route-transition span {
-  transform-origin: .19em 67%;
-  animation: portfolio-route-word 1.38s cubic-bezier(.56, .04, .53, .99) both;
+.portfolio-route-word {
+  position: relative;
+  transform-origin: var(--letter-origin, 28%) 65%;
+  animation: portfolio-route-word 1.25s cubic-bezier(.56, .04, .53, .99) both;
 }
+.portfolio-route-word b { font: inherit; }
+.portfolio-route-transition[data-direction="up"]::after,
+.portfolio-route-transition[data-direction="up"] .portfolio-route-word { animation-direction: reverse; }
+html:has(.portfolio-page) { overscroll-behavior-y: none; }
+html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0; }
 .gallery { position: relative; min-height: 80svh; padding-top: clamp(5.5rem, 7vw, 7rem); }
 .gallery-anchor { position: absolute; top: 0; }
 .gallery, .gallery-anchor { scroll-margin-top: -6rem; }
@@ -525,20 +549,41 @@
   .gallery-panel { animation: enter .35s cubic-bezier(.2, .8, .2, 1) both; }
   .project-details-dialog[open] { animation: enter .25s ease-out both; }
   @supports (animation-timeline: scroll()) {
-    .mountain-opening { min-height: 159svh; }
-    .mountain-frame {
-      animation: mountain-zoom linear both;
+    .mountain-opening { min-height: 171svh; }
+    .mountain-composite { visibility: hidden; }
+    .mountain-person, .mountain-trees { display: block; }
+    .mountain-distance {
+      animation: mountain-distance linear both;
       animation-timeline: scroll(root);
-      animation-range: 0px 60svh;
+      animation-range: 0px 70svh;
     }
+    .mountain-person {
+      animation: mountain-person linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 70svh;
+    }
+    .mountain-trees {
+      animation: mountain-trees linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 54svh;
+    }
+    .mountain-trees-left { --tree-drift: -23%; }
+    .mountain-trees-right { --tree-drift: 23%; }
     .opening-title {
       animation: opening-wordmark linear both;
       animation-timeline: scroll(root);
-      animation-range: 16svh 50svh;
+      animation-range: 16svh 68svh;
     }
   }
   @supports (animation-timeline: view()) {
     .reveal { animation: enter linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+    .about-slide:not(:focus-within) {
+      animation: about-slide ease-out both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 72%;
+    }
+    .about-slide-left { --about-offset: calc(-1 * clamp(2rem, 12vw, 12rem)); }
+    .about-slide-right { --about-offset: clamp(2rem, 12vw, 12rem); }
   
     .collage-photo {
       animation: collage-arrive linear both;
@@ -556,13 +601,26 @@
   from { opacity: 0; transform: translateY(3rem) scale(.88) rotate(12deg); }
   to { opacity: 1; transform: none; }
 }
-@keyframes mountain-zoom {
-  to { transform: translateY(-3%) scale(1.34); }
+@keyframes mountain-distance {
+  to { transform: translateY(5%) scale(1.3); }
+}
+@keyframes mountain-person {
+  from { transform: translateY(-7%) scale(1.13); }
+  to { transform: translateY(-16%) scale(1.22); }
+}
+@keyframes mountain-trees {
+  0%, 12% { opacity: 1; transform: none; }
+  65% { opacity: .94; }
+  to { opacity: 0; transform: translateX(var(--tree-drift)) scale(1.4); }
 }
 @keyframes opening-wordmark {
-  from { opacity: 0; transform: translateY(5%) scale(.93); }
-  62% { opacity: 1; }
-  to { opacity: 1; transform: translateY(-5%) scale(1); }
+  from { opacity: 0; transform: translateY(10%) scale(.92); }
+  58% { opacity: 1; transform: none; }
+  to { opacity: 1; transform: translateY(-13%) scale(1.04); }
+}
+@keyframes about-slide {
+  from { opacity: 0; transform: translateX(var(--about-offset)); }
+  to { opacity: 1; transform: none; }
 }
 @keyframes section-wordmark {
   from { opacity: 0; transform: translateY(66%) scale(.97); }
@@ -571,9 +629,9 @@
 @keyframes portfolio-route-word {
   from { opacity: 0; transform: translateY(.45em); }
   20% { opacity: 1; transform: none; }
-  43% { opacity: 1; transform: translate(-.2em, .06em) rotate(-2deg) scale(1.22); }
-  68% { opacity: 1; transform: translate(-.55em, -.1em) rotate(-4deg) scale(5.5); }
-  92%, to { opacity: 1; transform: translate(2.5em, 0) rotate(-4deg) scale(28); }
+  43% { opacity: 1; transform: translateX(calc(var(--letter-shift, 0px) * .2)) rotate(-2deg) scale(1.22); }
+  67% { opacity: 1; transform: translateX(calc(var(--letter-shift, 0px) * .78)) rotate(-4deg) scale(5.5); }
+  93%, to { opacity: 1; transform: translateX(var(--letter-shift, 0px)) rotate(-4deg) scale(38); }
 }
 @keyframes portfolio-route-wipe {
   0%, 75% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
@@ -603,7 +661,7 @@
 @media (prefers-reduced-motion: reduce) {
   .portfolio *, .portfolio *::before, .portfolio *::after { transition: none; scroll-behavior: auto; }
   .folder:is(:hover, :focus-visible) :is(.folder-paper, .folder-front) { transform: none; }
-  .portfolio-route-transition::after, .portfolio-route-transition span { animation: none; }
+  .portfolio-route-transition::after, .portfolio-route-word { animation: none; }
 }
 
 .certificate-card a { display: block; height: 100%; }

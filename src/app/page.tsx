@@ -13,7 +13,11 @@ export default function Home() {
       <section id="home" className="mountain-opening" aria-label="Home">
         <div className="mountain-stage">
           <div className="mountain-frame">
-            <Image src="/images/mountain-opening.webp" alt="" fill preload sizes="100vw" />
+            <Image className="mountain-distance" src="/images/mountain-distance.webp" alt="" fill preload sizes="100vw" />
+            <Image className="mountain-composite" src="/images/mountain-opening.webp" alt="" fill preload sizes="100vw" />
+            <span className="mountain-person" aria-hidden="true" />
+            <span className="mountain-trees mountain-trees-left" aria-hidden="true" />
+            <span className="mountain-trees mountain-trees-right" aria-hidden="true" />
           </div>
           <span className="mountain-stars" aria-hidden="true" />
           <p className="opening-title">Welcome to my<br />portfolio</p>
@@ -24,12 +28,12 @@ export default function Home() {
         <section id="about" className="wrap section about-section">
           <h2 className="section-heading reveal">About Me</h2>
           <div className="about-profile">
-            <div className="reveal">
+            <div className="about-slide about-slide-left">
               <h1><span>Hi, I’m</span><br />Rafi Albani<br />Syafarel</h1>
               <a className="button primary" href={cvUrl} target="_blank" rel="noopener noreferrer">View CV <span aria-hidden="true">↗</span></a>
             </div>
             <ProfilePortrait />
-            <div className="reveal">
+            <div className="about-slide about-slide-right">
               <p className="lead">I’m a Software Engineering student. I enjoy turning ideas into functional, visually engaging websites and learning modern web technologies.</p>
               <a className="button primary" data-portfolio-entry href="/portfolio/#projects">View Projects <span aria-hidden="true">↗</span></a>
             </div>
@@ -40,10 +44,12 @@ export default function Home() {
               <h3>Education</h3>
               <div className="timeline-list">
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>IDN Polytechnic</h4>
                   <p>Software Engineering</p>
                 </article>
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>Hidayatunnajah Islamic Boarding School</h4>
                 </article>
               </div>
@@ -52,22 +58,27 @@ export default function Home() {
               <h3 id="experience-heading">Experience</h3>
               <div className="timeline-list timeline-scroll" role="region" aria-labelledby="experience-heading" tabIndex={0}>
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>EduRace (Education Race)</h4>
                   <p>Participated in educational challenges that encouraged teamwork and problem-solving.</p>
                 </article>
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>Business Competition</h4>
                   <p>Explored business ideas and practiced creative thinking and presentation skills.</p>
                 </article>
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>Mission Impossible</h4>
                   <p>Completed team-based challenges focused on collaboration and strategy.</p>
                 </article>
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>Interviewing Workers on Work in the AI Era</h4>
                   <p>Explored how artificial intelligence is changing jobs through worker interviews.</p>
                 </article>
                 <article className="timeline-entry">
+                  <span className="timeline-number" aria-hidden="true" />
                   <h4>Paperclip Challenge</h4>
                   <p>Practiced negotiation, communication, and creativity through a trading challenge.</p>
                 </article>

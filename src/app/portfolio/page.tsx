@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProjectDetails from "../../components/ProjectDetails";
 import PortfolioGallery from "../../components/PortfolioGallery";
+import PortfolioTransition from "../../components/PortfolioTransition";
 import ContactDraft from "../../components/ContactDraft";
 import { certificates } from "../../data/certificates";
 import { projects } from "../../data/projects";
@@ -12,6 +13,7 @@ const cvUrl = "/cv/rafi-albani-syafarel.pdf";
 export default function PortfolioPage() {
   return (
     <main className="portfolio portfolio-page">
+      <PortfolioTransition reverse />
       <div className="light-portfolio contours">
         <section id="projects" className="section wrap gallery">
           <span className="gallery-anchor" id="certificates" />
