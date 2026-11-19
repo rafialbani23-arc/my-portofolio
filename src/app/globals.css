@@ -104,15 +104,15 @@ body {
   border-radius: .08rem;
 }
 
-.site-header:is([data-section="projects"], [data-section="contact"]) nav {
+.site-header[data-surface="light"] nav {
   background: #ffffffeb;
   box-shadow: 0 .5rem 1.15rem #26324d24;
 }
-.site-header:is([data-section="projects"], [data-section="contact"]) nav a:not([aria-current]) {
+.site-header[data-surface="light"] nav a:not([aria-current]) {
   color: #232a37;
   text-shadow: none;
 }
-.site-header:is([data-section="projects"], [data-section="contact"]) nav a:not([aria-current]):hover {
+.site-header[data-surface="light"] nav a:not([aria-current]):hover {
   background: #e9eef9;
 }
 @media (prefers-reduced-motion: no-preference) {

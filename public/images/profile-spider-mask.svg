@@ -1,16 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1307" viewBox="0 0 1000 1307">
   <defs>
-    <path id="face" d="M275 271C279 244 274 220 287 185c13-37 32-53 54-79 38-47 87-65 139-84 27-10 40-25 64-25 37 2 68 16 89 40 13 16 21 24 40 37 27 19 49 45 55 73 11 57-11 107-40 145 1 18 8 40 2 70-3 24-15 37-39 42-16 44-35 74-58 96-24 22-54 34-88 34-35 0-65-10-91-33-27-25-47-58-59-96-21 0-34-13-43-38-9-25-13-55-9-83Z"/>
+    <path id="face" d="M322 291C304 268 287 245 290 219c5-42 29-67 58-99 37-41 85-68 133-92 32-16 52-21 73-22 36 1 58 18 78 43 14 17 25 27 46 41 35 23 47 49 44 82-2 52-23 82-41 117 13 21 12 50 4 77-6 25-16 38-37 40-17 38-34 68-58 89-27 23-53 34-86 35-34 0-62-10-88-30-23-19-46-57-60-96-19-4-31-17-37-41-6-27-7-53 3-72Z"/>
     <clipPath id="face-shape"><use href="#face"/></clipPath>
-    <radialGradient id="red" cx=".38" cy=".3" r=".72">
-      <stop stop-color="#fc4b55"/>
-      <stop offset=".53" stop-color="#d61934"/>
-      <stop offset="1" stop-color="#640e25"/>
+    <radialGradient id="red" cx=".38" cy=".28" r=".73">
+      <stop stop-color="#ed4453"/>
+      <stop offset=".53" stop-color="#b81a34"/>
+      <stop offset="1" stop-color="#590d20"/>
     </radialGradient>
-    <linearGradient id="lens" x2=".25" y2="1">
-      <stop stop-color="#fff"/>
-      <stop offset=".7" stop-color="#f5f8ff"/>
-      <stop offset="1" stop-color="#9faabd"/>
+    <radialGradient id="face-light" cx=".47" cy=".43" r=".58">
+      <stop stop-color="#ff9386" stop-opacity=".26"/>
+      <stop offset=".42" stop-color="#da373c" stop-opacity=".05"/>
+      <stop offset="1" stop-color="#220b21" stop-opacity=".63"/>
+    </radialGradient>
+    <linearGradient id="lens" x2=".27" y2="1">
+      <stop stop-color="#e9e8e0"/>
+      <stop offset=".5" stop-color="#fcfff8"/>
+      <stop offset="1" stop-color="#919698"/>
     </linearGradient>
     <radialGradient id="suit-red" cx=".4" cy=".22" r=".8">
       <stop stop-color="#ef3d4c"/>
@@ -23,7 +28,7 @@
       <stop offset="1" stop-color="#0a182e"/>
     </linearGradient>
     <path id="torso" d="M0 568c116-20 269-20 368-66 21-14 28-55 25-94h221c-5 40 8 77 27 94 99 77 244 66 359 66v739H0Z"/>
-    <path id="suit-front" d="M100 651c90-31 197-83 268-149 21-14 28-55 25-94h221c-5 40 8 77 27 94 70 63 156 101 254 143-122 85-180 185-210 301l-33 361H348l-33-361c-26-130-103-221-215-295Z"/>
+    <path id="suit-front" d="M41 668c87-63 244-75 327-166 21-14 28-55 25-94h221c-5 40 8 77 27 94 76 84 234 107 318 164-152 69-242 172-274 280l-33 361H348l-33-361C281 830 195 737 41 668Z"/>
     <clipPath id="suit-front-clip"><use href="#suit-front"/></clipPath>
     <pattern id="weave" width="5" height="5" patternUnits="userSpaceOnUse">
       <path d="m0 0 5 5M5 0 0 5" fill="none" stroke="#43061c" stroke-width=".65" opacity=".38"/>
@@ -39,6 +44,7 @@
   <path d="m500 758-14 26-26-23-35-9 34 22 13 32-40-14-36 9 37 2 39 27-35 14-16 30 26-23 35-10 18 24 18-24 35 10 26 23-16-30-35-14 39-27 37-2-36-9-40 14 13-32 34-22-35 9-26 23Z" fill="#241225" opacity=".82"/>
   <use href="#face" fill="url(#red)"/>
   <use href="#face" fill="url(#weave)"/>
+  <use href="#face" fill="url(#face-light)"/>
   <g clip-path="url(#face-shape)" fill="none" stroke-linecap="round" stroke-linejoin="round">
     <g stroke="#330e20" stroke-width="5" opacity=".82">
       <path d="M502 325Q476 163 472 4M502 325Q534 143 581 4M502 325Q606 157 681 65M502 325Q640 220 732 191M502 325Q640 324 715 365M502 325Q593 422 658 477M502 325Q540 431 556 543M502 325Q472 437 457 543M502 325Q422 411 360 478M502 325Q390 352 300 385M502 325Q387 265 278 211M502 325Q409 183 326 111M502 325Q463 159 385 41"/>
@@ -46,8 +52,8 @@
     </g>
     <path d="M342 190c31-62 88-98 149-108" stroke="#ffa1a0" stroke-width="9" opacity=".15"/>
   </g>
-  <g fill="url(#lens)" stroke="#11121b" stroke-width="13" stroke-linejoin="round">
-    <path d="M365 245c33 20 76 43 122 61-8 21-27 36-55 37-34 0-56-37-67-98Z"/>
-    <path d="M641 247c-32 20-74 42-121 60 8 21 28 36 55 36 34 0 56-36 66-96Z"/>
+  <g fill="url(#lens)" stroke="#18151a" stroke-width="14" stroke-linejoin="round">
+    <path d="M376 241c24 15 58 45 91 74-7 15-19 29-41 29-33 1-48-44-50-103Z"/>
+    <path d="M628 242c-24 16-60 46-92 73 8 17 20 30 42 30 33 0 48-44 50-103Z"/>
   </g>
 </svg>

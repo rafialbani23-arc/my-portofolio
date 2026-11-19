@@ -108,10 +108,10 @@
 .profile-photo {
   --spot-x: 50%;
   --spot-y: 23%;
-  --spot-radius: clamp(3.6rem, 7.5vw, 6.5rem);
   position: relative;
+  container-type: inline-size;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1000 / 1307;
 }
 .profile-photo img {
   object-fit: contain;
@@ -122,13 +122,15 @@
   mask-image: linear-gradient(#000 82%, transparent 100%);
 }
 .profile-effect {
+  --spot-radius: 29cqw;
   position: absolute;
   inset: 0;
+  isolation: isolate;
   opacity: 0;
   pointer-events: none;
   mask:
     radial-gradient(circle var(--spot-radius) at var(--spot-x) var(--spot-y),
-      #000 33%, #000e 56%, #0005 82%, transparent 100%) intersect,
+      #000 22%, #000e 47%, #0007 72%, #0002 90%, transparent 100%) intersect,
     url("/images/profile-rafi-transparent.webp") center bottom / contain no-repeat;
   transition: opacity .23s ease;
 }
@@ -137,6 +139,17 @@
   position: absolute;
   inset: 0;
   background: url("/images/profile-spider-mask.svg") center bottom / contain no-repeat;
+  filter: saturate(.86) contrast(1.07);
+}
+.profile-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/profile-rafi-transparent.webp") center bottom / contain no-repeat;
+  filter: grayscale(1) blur(1.25px);
+  mix-blend-mode: soft-light;
+  opacity: .3;
+  mask-image: linear-gradient(#000 68%, transparent 100%);
 }
 .profile-pointer {
   position: absolute;
@@ -246,23 +259,47 @@
 .folder::before {
   content: "";
   inset: 0 0 .15rem;
-  background: linear-gradient(135deg, #515661, #232630 70%);
+  background: linear-gradient(165deg, #bdc8db56, #434c604e 48%, #11192978 94%);
+  border: 1px solid #bac7dc37;
   clip-path: polygon(0 15%, 41% 15%, 53% 0, 100% 0, 100% 100%, 0 100%);
   border-radius: .85rem;
+  box-shadow: inset 0 1px 0 #fff4;
 }
 .folder-front {
+  z-index: 1;
   display: grid;
   align-content: end;
-  inset: 28% 0 0;
+  inset: 27% 0 0;
   padding: clamp(.6rem, 2vw, 1.1rem);
+  overflow: hidden;
   color: #f2f3f7;
   font-size: .82rem;
-  border: 1px solid #ffffff20;
+  border: 1px solid #cddaff2e;
   border-radius: .85rem;
-  background: linear-gradient(150deg, #424751, #151721 78%);
-  box-shadow: inset 0 1px 0 #ffffff19, 0 .7rem 1.3rem #0005;
+  background: linear-gradient(165deg, #949dac4b, #242b3769 49%, #090c13e8 100%);
+  backdrop-filter: blur(10px) brightness(.45);
+  box-shadow: inset 0 1px 0 #ffffff3b, inset 0 -.75rem 1rem #02051140, 0 .7rem 1.3rem #0005;
   transform-origin: bottom;
-  transition: transform .3s;
+  transition: transform .36s cubic-bezier(.2, .9, .25, 1), border-color .28s;
+}
+@supports (clip-path: shape(from 0 0, line to 100% 100%, close)) {
+  .folder::before {
+    clip-path: shape(from 0 24%, curve to 7% 14% with 0 16% / 3% 14%, line to 41% 14%,
+      curve to 55% 0% with 47% 14% / 49% 0%, line to 93% 0%,
+      curve to 100% 10% with 98% 0% / 100% 4%, line to 100% 100%, line to 0 100%, close);
+  }
+  .folder-front {
+    clip-path: shape(from 0 13%, curve to 7% 0% with 0 5% / 3% 0%, line to 36% 0,
+      curve to 49% 15% with 42% 0% / 43% 15%, line to 93% 15%,
+      curve to 100% 28% with 98% 15% / 100% 20%, line to 100% 100%, line to 0 100%, close);
+  }
+}
+.folder-front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(119deg, #e7eeff15, transparent 45%, #d5dfff08 73%, transparent);
+  pointer-events: none;
 }
 .folder-front strong { font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1; }
 .folder-front span {
@@ -301,39 +338,50 @@
     repeating-linear-gradient(#aab7ce 0 1px, transparent 1px 7px) center 24% / 68% 55% no-repeat,
     linear-gradient(145deg, #f7f9ff, #d8e0ef);
 }
-.folder:is(:hover, :focus-visible) .folder-paper:nth-child(1) { transform: translate(-10%, -42%) rotate(-9deg); }
-.folder:is(:hover, :focus-visible) .folder-paper:nth-child(2) { transform: translate(9%, -36%) rotate(8deg); }
-.folder:is(:hover, :focus-visible) .folder-paper:nth-child(3) { transform: translate(0, -22%) rotate(-2deg); }
-.folder:is(:hover, :focus-visible) .folder-front { transform: rotateX(-23deg) translateY(4%); }
+.folder:is(:hover, :focus-visible) .folder-paper:nth-child(1) { transform: translate(-4%, -55%) rotate(-4deg); }
+.folder:is(:hover, :focus-visible) .folder-paper:nth-child(2) { transform: translate(2%, -39%) rotate(2deg); }
+.folder:is(:hover, :focus-visible) .folder-paper:nth-child(3) { transform: translate(0, -24%) rotate(-1deg); }
+.folder:is(:hover, :focus-visible) .folder-front { transform: rotateX(-15deg) translateY(3%); }
 .portfolio-transition {
   position: relative;
-  height: 0;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
   background: #060912;
   overflow: clip;
 }
-.portfolio-transition::after,
-.portfolio-transition-title { display: none; }
-.portfolio-transition::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  background: #f8f9fa;
-  pointer-events: none;
-}
-.portfolio-transition-title {
-  position: absolute;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
+.portfolio-transition-title,
+.portfolio-route-transition span {
+  display: block;
   color: #f8f9fa;
-  font-size: clamp(4rem, 14vw, 14rem);
+  font-size: 13.8vw;
   font-weight: 900;
   line-height: .86;
-  letter-spacing: -.055em;
+  letter-spacing: -.05em;
   text-transform: uppercase;
   white-space: nowrap;
-  pointer-events: none;
+}
+.portfolio-transition-title { padding: .15em .08em; }
+.portfolio-route-transition {
+  position: fixed;
+  z-index: 9;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+  pointer-events: auto;
+  background: #060912;
+}
+.portfolio-route-transition::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #f8f9fa;
+  animation: portfolio-route-wipe 1.38s linear both;
+}
+.portfolio-route-transition span {
+  transform-origin: .19em 67%;
+  animation: portfolio-route-word 1.38s cubic-bezier(.56, .04, .53, .99) both;
 }
 .gallery { position: relative; min-height: 80svh; padding-top: clamp(5.5rem, 7vw, 7rem); }
 .gallery-anchor { position: absolute; top: 0; }
@@ -486,7 +534,7 @@
     .opening-title {
       animation: opening-wordmark linear both;
       animation-timeline: scroll(root);
-      animation-range: 12svh 54svh;
+      animation-range: 16svh 50svh;
     }
   }
   @supports (animation-timeline: view()) {
@@ -497,21 +545,10 @@
       animation-timeline: view();
       animation-range: entry 0% cover 41%;
     }
-    .portfolio-transition {
-      height: clamp(15rem, 56svh, 34rem);
-      view-timeline-name: --portfolio-transition;
-    }
-    .portfolio-transition-title {
-      display: flex;
+    .portfolio-transition-title:not(:focus-visible) {
       animation: section-wordmark linear both;
-      animation-timeline: --portfolio-transition;
-      animation-range: entry 8% cover 68%;
-    }
-    .portfolio-transition::after {
-      display: block;
-      animation: change-section linear both;
-      animation-timeline: --portfolio-transition;
-      animation-range: cover 38% cover 70%;
+      animation-timeline: view();
+      animation-range: entry 0% cover 49%;
     }
   }
 }
@@ -520,7 +557,7 @@
   to { opacity: 1; transform: none; }
 }
 @keyframes mountain-zoom {
-  to { transform: scale(1.25) translateY(-4%); }
+  to { transform: translateY(-3%) scale(1.34); }
 }
 @keyframes opening-wordmark {
   from { opacity: 0; transform: translateY(5%) scale(.93); }
@@ -528,13 +565,19 @@
   to { opacity: 1; transform: translateY(-5%) scale(1); }
 }
 @keyframes section-wordmark {
-  from { opacity: 0; transform: translate(18%, 15%) rotate(-5deg) scale(.92); }
-  44% { opacity: 1; transform: translate(0, 0) rotate(-1.75deg) scale(1.03); }
-  to { opacity: 1; transform: translate(-14%, -5%) rotate(-4deg) scale(3.25); }
+  from { opacity: 0; transform: translateY(66%) scale(.97); }
+  to { opacity: 1; transform: none; }
 }
-@keyframes change-section {
-  from { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
-  50% { clip-path: polygon(0 52%, 100% 30%, 100% 100%, 0 100%); }
+@keyframes portfolio-route-word {
+  from { opacity: 0; transform: translateY(.45em); }
+  20% { opacity: 1; transform: none; }
+  43% { opacity: 1; transform: translate(-.2em, .06em) rotate(-2deg) scale(1.22); }
+  68% { opacity: 1; transform: translate(-.55em, -.1em) rotate(-4deg) scale(5.5); }
+  92%, to { opacity: 1; transform: translate(2.5em, 0) rotate(-4deg) scale(28); }
+}
+@keyframes portfolio-route-wipe {
+  0%, 75% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
+  92% { clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%); }
   to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 }
 @keyframes enter {
@@ -560,6 +603,7 @@
 @media (prefers-reduced-motion: reduce) {
   .portfolio *, .portfolio *::before, .portfolio *::after { transition: none; scroll-behavior: auto; }
   .folder:is(:hover, :focus-visible) :is(.folder-paper, .folder-front) { transform: none; }
+  .portfolio-route-transition::after, .portfolio-route-transition span { animation: none; }
 }
 
 .certificate-card a { display: block; height: 100%; }
