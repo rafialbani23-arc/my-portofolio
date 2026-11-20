@@ -44,6 +44,7 @@ body {
 .site-header[data-section="projects"] { --nav-slot: 2; }
 .site-header[data-section="contact"] { --nav-slot: 3; }
 .site-header nav {
+  --nav-indicator: var(--nav-slot);
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -65,7 +66,7 @@ body {
   text-shadow: 0 1px 4px #0a172a;
   transition: background .2s, color .2s;
 }
-.site-header nav a:not([aria-current]):is(:hover, :focus-visible) { background: #eef5ff27; }
+.site-header nav a:not([aria-current]):focus-visible { background: #eef5ff27; }
 .nav-active-track {
   position: absolute;
   inset: var(--nav-pad) auto var(--nav-pad) var(--nav-pad);
@@ -73,7 +74,7 @@ body {
   border-radius: 99px;
   background: #3260dc;
   box-shadow: 0 0 .95rem #466fff99;
-  transform: translateX(calc(var(--nav-slot) * 100%));
+  transform: translateX(calc(var(--nav-indicator) * 100%));
   transition: transform .38s cubic-bezier(.25, .85, .25, 1);
   pointer-events: none;
 }
@@ -112,8 +113,16 @@ body {
   color: #232a37;
   text-shadow: none;
 }
-.site-header[data-surface="light"] nav a:not([aria-current]):hover {
-  background: #e9eef9;
+@media (hover: hover) and (pointer: fine) {
+  .site-header nav:has(a:nth-of-type(1):hover) { --nav-indicator: 0; }
+  .site-header nav:has(a:nth-of-type(2):hover) { --nav-indicator: 1; }
+  .site-header nav:has(a:nth-of-type(3):hover) { --nav-indicator: 2; }
+  .site-header nav:has(a:nth-of-type(4):hover) { --nav-indicator: 3; }
+  .site-header[data-surface="light"] nav:has(a:hover) a[aria-current]:not(:hover) {
+    color: #232a37;
+    text-shadow: none;
+  }
+  .site-header[data-surface="light"] nav a:hover { color: white; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .nav-sprite { animation: nav-float 2.8s ease-in-out infinite; }
@@ -126,4 +135,4 @@ body {
   .site-header nav, .site-header nav a, .nav-active-track { transition: none; }
 }
 
-.site-header nav:not(:has(a[aria-current])) .nav-active-track { display: none; }
+.site-header nav:not(:has(a[aria-current], a:hover)) .nav-active-track { display: none; }
