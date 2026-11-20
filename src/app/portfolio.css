@@ -34,8 +34,7 @@
 .mountain-frame img { object-fit: cover; }
 .mountain-ground,
 .mountain-person,
-.mountain-trees,
-.mountain-fence {
+.mountain-trees {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -67,12 +66,9 @@
   clip-path: inset(0 0 0 50%);
   transform-origin: right center;
 }
-.mountain-trees { background: url("/images/bromo-plants.webp") center / 100% 100% no-repeat; }
-.mountain-fence {
+.mountain-trees {
   z-index: 1;
-  inset: 6% 0 0;
-  background: url("/images/bromo-red-railing.webp") center bottom / max(100%, 120svh) 100% no-repeat;
-  transform-origin: center bottom;
+  background: url("/images/mountain-foreground.webp") center / 100% 100% no-repeat;
 }
 .mountain-stars {
   position: absolute;
@@ -623,11 +619,6 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
       animation-timeline: scroll(root);
       animation-range: 0px 51svh;
     }
-    .mountain-fence {
-      animation: mountain-fence linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0px 76svh;
-    }
     .mountain-trees-left { --tree-drift: -32%; }
     .mountain-trees-right { --tree-drift: 32%; }
     .opening-title {
@@ -706,9 +697,6 @@ html:has(#portfolio-intro:target) { scroll-behavior: auto; scroll-padding-top: 0
   from { transform: translateY(-8%) scale(1.16); }
   52% { transform: translateY(-10%) scale(1.17); }
   to { transform: translateY(-15%) scale(1.19); }
-}
-@keyframes mountain-fence {
-  to { transform: translateY(6%) scale(1.045); }
 }
 @keyframes mountain-trees {
   0%, 7% { opacity: 1; transform: none; }

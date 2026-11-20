@@ -14,10 +14,9 @@ export default function Home() {
             <Image className="mountain-distance" src="/images/bromo-panorama.webp" alt="" fill preload sizes="100vw" />
             <span className="mountain-ground" aria-hidden="true" />
             <span className="mountain-person" aria-hidden="true" />
-            <span className="mountain-trees mountain-trees-left" aria-hidden="true" />
-            <span className="mountain-trees mountain-trees-right" aria-hidden="true" />
           </div>
-          <span className="mountain-fence" aria-hidden="true" />
+          <span className="mountain-trees mountain-trees-left" aria-hidden="true" />
+          <span className="mountain-trees mountain-trees-right" aria-hidden="true" />
           <span className="mountain-stars" aria-hidden="true" />
           <p className="opening-title">Welcome to my<br />portfolio</p>
         </div>
